@@ -5,15 +5,16 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.indyzalab.achiever.baseadapter.EventItem;
-import com.indyzalab.achiever.baseadapter.ListImageAdapter;
+import com.indyzalab.achiever.baseadapter.RecyclerListImageAdapter;
 
 import java.util.ArrayList;
 
@@ -37,10 +38,13 @@ public class QuestLogFragment extends Fragment {
     private String mParam2;
 
     private Context mContext;
-    private static ListView listView;
-    private static ListImageAdapter listAdapter;
+//    private static ListView listView;
+//    private static ListImageAdapter listAdapter;
     private static ArrayList<EventItem> listArray = new ArrayList<EventItem>();
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -81,38 +85,63 @@ public class QuestLogFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_quest_log, container, false);
         mContext = view.getContext();
-        Bitmap default_icon = BitmapFactory.decodeResource(mContext.getResources(),
+        final Bitmap default_icon = BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.test_btn);
         Bitmap[] bit_arr = {default_icon};
         listArray = new ArrayList<EventItem>();
-        listView = (ListView) view.findViewById(R.id.listView_noti);
+//        listView = (ListView) view.findViewById(R.id.listView_noti);
         listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_SCHOOL, bit_arr, null, "Learn Ruby", "Learn basic Ruby on Rails this month", 0));
         listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_FITNESS, bit_arr, null, "Defeat Vegeta", "Beat Vegeta up", 0));
-        Thread thread = new Thread()
-        {
-            @Override
-            public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    public void run() {
-                        // some code #3 (that needs to be ran in UI thread)
-//                        dataSource.open();
-//                        listArray = dataSource.getAllNotificationItems();
+//        Thread thread = new Thread()
+//        {
+//            @Override
+//            public void run() {
+//                getActivity().runOnUiThread(new Runnable() {
+//                    public void run() {
+//                        // some code #3 (that needs to be ran in UI thread)
+////                        dataSource.open();
+////                        listArray = dataSource.getAllNotificationItems();
+////
+////                        dataSource.close();
+//                        Log.i("QuestLogFragment","No of ");
+//                        listAdapter = new ListImageAdapter(getActivity(), R.layout.quest_list_element, listArray);
+//                        listView.setAdapter(listAdapter);
+//                        listAdapter.notifyDataSetChanged();
+//                    }
+//                });
 //
-//                        dataSource.close();
-                        Log.i("QuestLogFragment","No of ");
-                        listAdapter = new ListImageAdapter(getActivity(), R.layout.quest_list_element, listArray);
-                        listView.setAdapter(listAdapter);
-                        listAdapter.notifyDataSetChanged();
-                    }
-                });
+//
+//            }
+//        };
+//        thread.run();
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_listview);
 
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(mContext);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new RecyclerListImageAdapter(mContext,listArray);
+        mRecyclerView.setAdapter(mAdapter);
+        FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.float_addBtn);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap[] bit_arr = {default_icon};
+                addItem(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_FITNESS, bit_arr, null, "Defeat Vegeta", "Beat Vegeta up", 0));
             }
-        };
-        thread.run();
+        });
         return view;
     }
 
+    private void addItem(EventItem item) {
+        listArray.add(0,item);
+        mAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onAttach(Activity activity) {
