@@ -1,6 +1,9 @@
 package com.indyzalab.achiever;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,6 +36,7 @@ public class QuestLogFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Context mContext;
     private static ListView listView;
     private static ListImageAdapter listAdapter;
     private static ArrayList<EventItem> listArray = new ArrayList<EventItem>();
@@ -76,10 +80,14 @@ public class QuestLogFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_quest_log, container, false);
+        mContext = view.getContext();
+        Bitmap default_icon = BitmapFactory.decodeResource(mContext.getResources(),
+                R.drawable.test_btn);
+        Bitmap[] bit_arr = {default_icon};
         listArray = new ArrayList<EventItem>();
         listView = (ListView) view.findViewById(R.id.listView_noti);
-        listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null,EventItem.CATEGORY_SCHOOL,null,null,"Learn Ruby","Learn basic Ruby on Rails this month", 0));
-        listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null,EventItem.CATEGORY_FITNESS,null,null,"Defeat Vegeta","Beat Vegeta up", 0));
+        listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_SCHOOL, bit_arr, null, "Learn Ruby", "Learn basic Ruby on Rails this month", 0));
+        listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_FITNESS, bit_arr, null, "Defeat Vegeta", "Beat Vegeta up", 0));
         Thread thread = new Thread()
         {
             @Override

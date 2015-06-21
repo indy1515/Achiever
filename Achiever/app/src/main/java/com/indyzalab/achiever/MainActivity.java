@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -44,7 +45,8 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
         mContext = this;
 
         DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
-        mDrawerLayout.setScrimColor(getResources().getColor(R.color.black));
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setScrimColor(getResources().getColor(R.color.drawer_overlay));
 //        showFragment(QUEST_LOG_FRAGMENT, false);
     }
 

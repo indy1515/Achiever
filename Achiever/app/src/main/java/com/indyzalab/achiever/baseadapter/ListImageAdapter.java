@@ -83,17 +83,17 @@ public class ListImageAdapter extends ArrayAdapter<EventItem> {
 
 
     	//set Type
-    	Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/JS_Noklae.ttf");
+    	Typeface tf = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto_Regular.ttf");
 		holder.txtTitle.setTypeface(tf);
 		holder.txtTitle.setTextColor(this.getContext().getResources().getColor(R.color.black));
-		holder.txtTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+		holder.txtTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		holder.txtDescription.setTypeface(tf);
 		holder.txtDescription.setTextColor(this.getContext().getResources().getColor(R.color.black));
-		holder.txtDescription.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+		holder.txtDescription.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
 		holder.txtDescription2.setTypeface(tf);
 		holder.txtDescription2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 		holder.txtDescription3.setTypeface(tf);
-		holder.txtDescription3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+		holder.txtDescription3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
     	return row;
     	
     }

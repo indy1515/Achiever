@@ -53,4 +53,7 @@
 
     <color name="primary">#22BBDD</color>
     <color name="primary_dark">#1199BB</color>
+
+
+    <color name="drawer_overlay">#99000000</color>
 </resources>

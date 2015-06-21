@@ -90,6 +90,10 @@ public class EventItem {
     public void setCategory(String category) {
         this.category = category;
         if(category_bitmap == null) return;
+        if(category_bitmap.length < 12){
+            setCategory_icon(category_bitmap[0]);
+            return;
+        }
         Bitmap icon;
         switch (category){
             case CATEGORY_FITNESS: icon = category_bitmap[1]; break;
