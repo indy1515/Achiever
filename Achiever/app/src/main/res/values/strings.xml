@@ -11,6 +11,14 @@
     <string name="profile_title_logged_out">You must be logged in to view your profile</string>
     <string name="profile_login_button_label">Log in</string>
 
+
+    <!-- Drawer -->
+    <string name="navigation_item_1">Navigation Item 1</string>
+    <string name="navigation_item_2">Navigation Item 2</string>
+
+    <string name="navigation_subheader">Navigation Subheader</string>
+    <string name="navigation_sub_item_1">Navigation Subitem 1</string>
+    <string name="navigation_sub_item_2">Navigation Subitem 2</string>
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

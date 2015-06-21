@@ -1,9 +1,59 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent" tools:context="com.indyzalab.achiever.QuestLogFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="This is Quest Log Fragment" />
+
+
+        <RelativeLayout
+
+            android:id="@+id/quest_log_lower_layout"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <!-- List -->
+
+            <!--<android.support.v4.widget.SwipeRefreshLayout-->
+            <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--xmlns:tools="http://schemas.android.com/tools"-->
+            <!--android:id="@+id/swipe_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".NotificationFragment" >
+
+                <ListView
+                    android:id="@+id/listView_noti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stretchMode="columnWidth"
+                    android:divider="@color/CVDarkGrey"
+                    android:dividerHeight="10dp" >
+                </ListView>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/myFAB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/plus_white"
+                    app:elevation="4dp"
+                    app:borderWidth="0dp"
+                    app:backgroundTint="@color/CVBlue"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+
+            </RelativeLayout>
+            <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+
+        </RelativeLayout>
+
+
 
 </FrameLayout>

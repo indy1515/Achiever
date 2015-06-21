@@ -3,16 +3,17 @@ package com.indyzalab.achiever;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
 import com.facebook.AccessToken;
 import com.parse.ParseUser;
 
 
-public class MainActivity extends FragmentActivity implements LoginFragment.OnFragmentInteractionListener,
+public class MainActivity extends ActionBarActivity implements LoginFragment.OnFragmentInteractionListener,
         QuestLogFragment.OnFragmentInteractionListener{
 
 
@@ -41,6 +42,9 @@ public class MainActivity extends FragmentActivity implements LoginFragment.OnFr
         initializingFragment();
 
         mContext = this;
+
+        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+        mDrawerLayout.setScrimColor(getResources().getColor(R.color.black));
 //        showFragment(QUEST_LOG_FRAGMENT, false);
     }
 

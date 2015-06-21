@@ -3,9 +3,16 @@ package com.indyzalab.achiever;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.indyzalab.achiever.baseadapter.EventItem;
+import com.indyzalab.achiever.baseadapter.ListImageAdapter;
+
+import java.util.ArrayList;
 
 
 /**
@@ -25,6 +32,11 @@ public class QuestLogFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private static ListView listView;
+    private static ListImageAdapter listAdapter;
+    private static ArrayList<EventItem> listArray = new ArrayList<EventItem>();
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,7 +75,34 @@ public class QuestLogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quest_log, container, false);
+        View view = inflater.inflate(R.layout.fragment_quest_log, container, false);
+        listArray = new ArrayList<EventItem>();
+        listView = (ListView) view.findViewById(R.id.listView_noti);
+        listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null,EventItem.CATEGORY_SCHOOL,null,null,"Learn Ruby","Learn basic Ruby on Rails this month", 0));
+        listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null,EventItem.CATEGORY_FITNESS,null,null,"Defeat Vegeta","Beat Vegeta up", 0));
+        Thread thread = new Thread()
+        {
+            @Override
+            public void run() {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        // some code #3 (that needs to be ran in UI thread)
+//                        dataSource.open();
+//                        listArray = dataSource.getAllNotificationItems();
+//
+//                        dataSource.close();
+                        Log.i("QuestLogFragment","No of ");
+                        listAdapter = new ListImageAdapter(getActivity(), R.layout.quest_list_element, listArray);
+                        listView.setAdapter(listAdapter);
+                        listAdapter.notifyDataSetChanged();
+                    }
+                });
+
+
+            }
+        };
+        thread.run();
+        return view;
     }
 
 
