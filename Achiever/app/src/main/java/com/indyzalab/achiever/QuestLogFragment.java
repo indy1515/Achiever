@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.indyzalab.achiever.baseadapter.EventItem;
 import com.indyzalab.achiever.baseadapter.RecyclerListImageAdapter;
 
 import java.util.ArrayList;
+
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 
 /**
@@ -43,8 +46,8 @@ public class QuestLogFragment extends Fragment {
     private static ArrayList<EventItem> listArray = new ArrayList<EventItem>();
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerListImageAdapter mAdapter;
+    private LinearLayoutManager mLayoutManager;
 
     private OnFragmentInteractionListener mListener;
 
@@ -122,11 +125,16 @@ public class QuestLogFragment extends Fragment {
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(mContext);
+        mLayoutManager.setSmoothScrollbarEnabled(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
         mAdapter = new RecyclerListImageAdapter(mContext,listArray);
+
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new SlideInRightAnimator());
+        mRecyclerView.getItemAnimator().setAddDuration(200);
+        mRecyclerView.getItemAnimator().setRemoveDuration(200);
         FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.float_addBtn);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +147,19 @@ public class QuestLogFragment extends Fragment {
     }
 
     private void addItem(EventItem item) {
-        listArray.add(0,item);
-        mAdapter.notifyDataSetChanged();
+
+        int before_position = mLayoutManager.findFirstVisibleItemPosition();
+        if(before_position == 0)
+        mLayoutManager.smoothScrollToPosition(mRecyclerView,null,0);
+        mAdapter.add(0, item);
+        int after_position = mLayoutManager.findFirstVisibleItemPosition();
+        Log.i("QuestLogFragment","Visible Position First:"+after_position);
+        if(after_position > 0){
+            // TODO:Create a notice on top somehow
+        }
+
+
+
     }
 
     @Override

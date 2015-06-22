@@ -46,6 +46,8 @@ public class RecyclerListImageAdapter extends RecyclerView.Adapter<RecyclerListI
             imageItem = (ImageView) view.findViewById(R.id.imgList1);
             stateView = view.findViewById(R.id.state_open);
         }
+
+
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -103,9 +105,9 @@ public class RecyclerListImageAdapter extends RecyclerView.Adapter<RecyclerListI
         holder.txtDescription2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         holder.txtDescription3.setTypeface(tf);
         holder.txtDescription3.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        Log.i("RecyclerAdapter","Position: "+position);
+        Log.i("RecyclerAdapter", "Position: " + position);
+        // TODO: New label on top left
 
-        setAnimation(holder.container, position);
     }
 
     /**
@@ -126,5 +128,16 @@ public class RecyclerListImageAdapter extends RecyclerView.Adapter<RecyclerListI
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void remove(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void add(int position, EventItem item) {
+        data.add(position, item);
+
+        notifyItemInserted(position);
     }
 }
