@@ -8,10 +8,18 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.parse.ParseUser;
+
+import java.lang.reflect.Field;
 
 
 public class MainActivity extends ActionBarActivity implements LoginFragment.OnFragmentInteractionListener,
@@ -35,21 +43,50 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
 
     private ParseUser currentUser;
 
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
+
         initializingFragment();
 
         mContext = this;
 
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+        final DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         mDrawerLayout.setScrimColor(getResources().getColor(R.color.drawer_overlay));
-//        showFragment(QUEST_LOG_FRAGMENT, false);
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);                   // Setting toolbar as the ActionBar with setSupportActionBar() call
+        toolbar.setNavigationIcon(R.drawable.ic_action_navigation_menu);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+
+
     }
 
+    private TextView getActionBarTextView() {
+        TextView titleTextView = null;
+
+        try {
+            Field f = toolbar.getClass().getDeclaredField("mTitleTextView");
+            f.setAccessible(true);
+            titleTextView = (TextView) f.get(toolbar);
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalAccessException e) {
+        }
+        return titleTextView;
+    }
     public void initializingFragment(){
         fragments = new Fragment[FRAGMENT_SIZE];
         fragments [LOGIN_FRAGMENT] = new LoginFragment();
@@ -66,6 +103,7 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
 
         } transaction.commit();
     }
+
 
     public void showFragment(int fragmentIndex, boolean addToBackStack) {
 
@@ -165,6 +203,28 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
 //            hideTab();
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

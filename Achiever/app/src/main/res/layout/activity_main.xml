@@ -10,6 +10,7 @@
         <android.support.design.widget.CoordinatorLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <!-- your content layout -->
@@ -28,7 +29,15 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary"
                         android:elevation="4dp"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                         app:layout_scrollFlags="scroll|enterAlways">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toolbar Title"
+                            android:layout_gravity="start"
+                            android:id="@+id/toolbar_title" />
                     </android.support.v7.widget.Toolbar>
                 </android.support.design.widget.AppBarLayout>
                 <FrameLayout  android:id="@+id/container"

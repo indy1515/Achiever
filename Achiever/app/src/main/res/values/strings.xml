@@ -21,4 +21,29 @@
     <string name="navigation_sub_item_2">Navigation Subitem 2</string>
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Dialog Label -->
+    <string name="add_quest">Create new quest</string>
+    <string name="quest_name">Quest Name</string>
+    <string name="quest_content">Eg. Exercise for healthy life</string>
+    <string name="quest_goal">Quest Detail/Goal</string>
+    <string name="quest_detail">Eg. 10 Push up</string>
+    <string name="type_private">Private</string>
+    <string name="type_public">Public</string>
+    <string name="forever">Forever</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+
+
+
+
+    <!-- From Material Design Library -->
+    <string name="signalStrength">Signal strength</string>
+    <string name="excellent">Excellent</string>
+    <string name="security">Security</string>
+    <string name="securityType">802.1x EAP</string>
+    <string name="password">Password</string>
+    <string name="showPassword">Show password</string>
+    <string name="ssid">SSID</string>
+    <string name="ssidLit">Material Dialogs</string>
 </resources>

@@ -54,6 +54,10 @@
     <color name="primary">#22BBDD</color>
     <color name="primary_dark">#1199BB</color>
 
+    <color name="material_indigo_500">#3F51B5</color>
+    <color name="material_indigo_600">#3949AB</color>
+    <color name="material_teal_500">#009688</color>
+    <color name="material_red_400">#EF5350</color>
 
     <color name="drawer_overlay">#99000000</color>
 </resources>

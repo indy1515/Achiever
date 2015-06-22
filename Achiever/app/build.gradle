@@ -32,6 +32,7 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.2.0'
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.android.support:support-v4:22.2.0'
-    compile 'com.android.support:recyclerview-v7:+'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
     compile fileTree(dir: 'libs', include: 'recyclerview-animators-*.jar')
+    compile 'com.afollestad:material-dialogs:0.7.6.0'
 }

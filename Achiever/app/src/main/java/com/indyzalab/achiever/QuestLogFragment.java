@@ -5,17 +5,29 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.ThemeSingleton;
 import com.indyzalab.achiever.baseadapter.EventItem;
 import com.indyzalab.achiever.baseadapter.RecyclerListImageAdapter;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -41,10 +53,10 @@ public class QuestLogFragment extends Fragment {
     private String mParam2;
 
     private Context mContext;
-//    private static ListView listView;
-//    private static ListImageAdapter listAdapter;
+    ParseUser currentUser;
     private static ArrayList<EventItem> listArray = new ArrayList<EventItem>();
 
+    private Bitmap default_icon;
     private RecyclerView mRecyclerView;
     private RecyclerListImageAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
@@ -88,35 +100,14 @@ public class QuestLogFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_quest_log, container, false);
         mContext = view.getContext();
-        final Bitmap default_icon = BitmapFactory.decodeResource(mContext.getResources(),
+        default_icon = BitmapFactory.decodeResource(mContext.getResources(),
                 R.drawable.test_btn);
         Bitmap[] bit_arr = {default_icon};
         listArray = new ArrayList<EventItem>();
 //        listView = (ListView) view.findViewById(R.id.listView_noti);
         listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_SCHOOL, bit_arr, null, "Learn Ruby", "Learn basic Ruby on Rails this month", 0));
         listArray.add(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_FITNESS, bit_arr, null, "Defeat Vegeta", "Beat Vegeta up", 0));
-//        Thread thread = new Thread()
-//        {
-//            @Override
-//            public void run() {
-//                getActivity().runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        // some code #3 (that needs to be ran in UI thread)
-////                        dataSource.open();
-////                        listArray = dataSource.getAllNotificationItems();
-////
-////                        dataSource.close();
-//                        Log.i("QuestLogFragment","No of ");
-//                        listAdapter = new ListImageAdapter(getActivity(), R.layout.quest_list_element, listArray);
-//                        listView.setAdapter(listAdapter);
-//                        listAdapter.notifyDataSetChanged();
-//                    }
-//                });
-//
-//
-//            }
-//        };
-//        thread.run();
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_listview);
 
         // use this setting to improve performance if you know that changes
@@ -135,32 +126,153 @@ public class QuestLogFragment extends Fragment {
         mRecyclerView.setItemAnimator(new SlideInRightAnimator());
         mRecyclerView.getItemAnimator().setAddDuration(200);
         mRecyclerView.getItemAnimator().setRemoveDuration(200);
+
         FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.float_addBtn);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap[] bit_arr = {default_icon};
-                addItem(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_FITNESS, bit_arr, null, "Defeat Vegeta", "Beat Vegeta up", 0));
+                showCustomView();
+
             }
         });
+
+        //FrameLayout rootLayout;
+        CoordinatorLayout coordinatorLayout;
+
+//rootLayout = (FrameLayout) findViewById(R.id.rootLayout);
+        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.quest_log_coordinatorLayout);
+        currentUser = ParseUser.getCurrentUser();
+        String name = "";
+        if(currentUser != null){
+            name = currentUser.getString("name");
+        }
+        Snackbar.make(coordinatorLayout, "Hi! "+name, Snackbar.LENGTH_SHORT)
+                .setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                })
+                .show();
+
+//        showFragment(QUEST_LOG_FRAGMENT, false);
         return view;
     }
 
-    private void addItem(EventItem item) {
+    private void addItem(final EventItem item) {
+        final Handler h = new Handler();
+        Runnable r1 = new Runnable() {
 
-        int before_position = mLayoutManager.findFirstVisibleItemPosition();
-        if(before_position == 0)
-        mLayoutManager.smoothScrollToPosition(mRecyclerView,null,0);
-        mAdapter.add(0, item);
-        int after_position = mLayoutManager.findFirstVisibleItemPosition();
-        Log.i("QuestLogFragment","Visible Position First:"+after_position);
-        if(after_position > 0){
-            // TODO:Create a notice on top somehow
-        }
+            @Override
+            public void run() {
+                int before_position = mLayoutManager.findFirstVisibleItemPosition();
+                if(before_position == 0)
+                    mLayoutManager.smoothScrollToPosition(mRecyclerView, null, 0);
+                mAdapter.add(0, item);
+                int after_position = mLayoutManager.findFirstVisibleItemPosition();
+                Log.i("QuestLogFragment","Visible Position First:"+after_position);
+                if(after_position > 0){
+                    // TODO:Create a notice on top somehow
+                }
+                // do first thing
 
-
+            }
+        };
+        h.postDelayed(r1,300);
 
     }
+
+    private EditText passwordInput;
+    private EditText questET;
+    private View positiveAction;
+    private TextInputLayout questInput;
+    private void showCustomView() {
+        MaterialDialog dialog = new MaterialDialog.Builder(mContext)
+                .title(R.string.add_quest)
+                .customView(R.layout.dialog_customview, true)
+                .positiveText(R.string.create)
+                .negativeText(android.R.string.cancel)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+//                        showToast("Item added");
+                        Bitmap[] bit_arr = {default_icon};
+                        questET.clearFocus();
+
+                        addItem(new EventItem(EventItem.TYPE_PRIVATE, null, EventItem.CATEGORY_FITNESS, bit_arr, null, "Defeat Vegeta", "Beat Vegeta up", 0));
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                    }
+                }).build();
+        questInput = (TextInputLayout) dialog.getCustomView().findViewById(R.id.dialog_quest_nameTIL);
+        questET = questInput.getEditText();
+
+
+        questInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                Log.i("QuestLogFragment","Quest TIL Focus: "+hasFocus);
+                if(hasFocus){
+//                    Log.i("QuestLogFragment","Quest ET Focus: "+hasFocus);
+                }else{
+
+                }
+            }
+        });
+        questInput.setHint(getResources().getString(R.string.quest_name) + " " + getResources().getString(R.string.quest_content));
+
+        positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
+        //noinspection ConstantConditions
+//        passwordInput = (EditText) dialog.getCustomView().findViewById(R.id.password);
+        questET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                positiveAction.setEnabled(s.toString().trim().length() > 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        // Toggling the show password CheckBox will mask or unmask the password input EditText
+//        CheckBox checkbox = (CheckBox) dialog.getCustomView().findViewById(R.id.showPassword);
+//        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                passwordInput.setInputType(!isChecked ? InputType.TYPE_TEXT_VARIATION_PASSWORD : InputType.TYPE_CLASS_TEXT);
+//                passwordInput.setTransformationMethod(!isChecked ? PasswordTransformationMethod.getInstance() : null);
+//            }
+//        });
+
+        int widgetColor = ThemeSingleton.get().widgetColor;
+//        MDTintHelper.setTint(checkbox,
+//                widgetColor == 0 ? getResources().getColor(R.color.material_teal_500) : widgetColor);
+
+//        MDTintHelper.setTint(passwordInput,
+//                widgetColor == 0 ? getResources().getColor(R.color.material_teal_500) : widgetColor);
+
+        dialog.show();
+        positiveAction.setEnabled(false); // disabled by default
+    }
+
+    private Toast mToast;
+    private void showToast(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+            mToast = null;
+        }
+        mToast = Toast.makeText(mContext, message, Toast.LENGTH_SHORT);
+        mToast.show();
+    }
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -192,6 +304,7 @@ public class QuestLogFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void showFragment(int fragmentIndex, boolean addToBackStack);
+
     }
 
     /**
@@ -204,4 +317,6 @@ public class QuestLogFragment extends Fragment {
             mListener.showFragment(fragmentIndex, addToBackStack);
         }
     }
+
+
 }
