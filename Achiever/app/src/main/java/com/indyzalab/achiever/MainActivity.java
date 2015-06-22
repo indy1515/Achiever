@@ -2,6 +2,9 @@ package com.indyzalab.achiever;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -44,13 +47,14 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
     private ParseUser currentUser;
 
     private Toolbar toolbar;
+    private FloatingActionButton addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fragmentManager = getSupportFragmentManager();
-
+        addButton = (FloatingActionButton) findViewById(R.id.float_addBtn);
         initializingFragment();
 
         mContext = this;
@@ -75,6 +79,20 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
 
     }
 
+    public FloatingActionButton getFloatingActionButton() {
+
+
+        return addButton;
+
+    }
+    public void reset(){
+        CoordinatorLayout coordinator = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        AppBarLayout appbar = (AppBarLayout) findViewById(R.id.app_bar);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appbar.getLayoutParams();
+        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+        int[] consumed = new int[2];
+        behavior.onNestedFling(coordinator, appbar, null, 0, -1000, true);
+    }
     private TextView getActionBarTextView() {
         TextView titleTextView = null;
 
@@ -222,7 +240,11 @@ public class MainActivity extends ActionBarActivity implements LoginFragment.OnF
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.action_map){
+            reset();
+            return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }

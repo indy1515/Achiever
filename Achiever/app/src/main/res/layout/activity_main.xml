@@ -15,9 +15,9 @@
             android:layout_height="match_parent">
             <!-- your content layout -->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                 <android.support.design.widget.AppBarLayout
                     android:id="@+id/app_bar"
                     android:layout_width="match_parent"
@@ -29,6 +29,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/primary"
                         android:elevation="4dp"
+                        android:minHeight="?attr/actionBarSize"
                         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                         app:layout_scrollFlags="scroll|enterAlways">
@@ -40,11 +41,26 @@
                             android:id="@+id/toolbar_title" />
                     </android.support.v7.widget.Toolbar>
                 </android.support.design.widget.AppBarLayout>
+
+
                 <FrameLayout  android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
                     android:layout_below="@+id/app_bar"/>
-            </RelativeLayout>
+                </RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/float_addBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/plus_white"
+                app:elevation="4dp"
+                app:borderWidth="0dp"
+                app:backgroundTint="@color/CVBlue"
+                android:layout_marginBottom="@dimen/fab_margin_bottom"
+                android:layout_marginRight="@dimen/fab_margin_right"
+                android:layout_gravity="bottom|right" />
+
         </android.support.design.widget.CoordinatorLayout>
 
         <android.support.design.widget.NavigationView

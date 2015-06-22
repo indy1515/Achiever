@@ -6,9 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -127,7 +125,7 @@ public class QuestLogFragment extends Fragment {
         mRecyclerView.getItemAnimator().setAddDuration(200);
         mRecyclerView.getItemAnimator().setRemoveDuration(200);
 
-        FloatingActionButton addButton = (FloatingActionButton) view.findViewById(R.id.float_addBtn);
+        FloatingActionButton addButton = getFloatingActionButton();
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,24 +134,24 @@ public class QuestLogFragment extends Fragment {
             }
         });
 
-        //FrameLayout rootLayout;
-        CoordinatorLayout coordinatorLayout;
-
-//rootLayout = (FrameLayout) findViewById(R.id.rootLayout);
-        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.quest_log_coordinatorLayout);
-        currentUser = ParseUser.getCurrentUser();
-        String name = "";
-        if(currentUser != null){
-            name = currentUser.getString("name");
-        }
-        Snackbar.make(coordinatorLayout, "Hi! "+name, Snackbar.LENGTH_SHORT)
-                .setAction("Undo", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                })
-                .show();
+//        //FrameLayout rootLayout;
+//        CoordinatorLayout coordinatorLayout;
+//
+////rootLayout = (FrameLayout) findViewById(R.id.rootLayout);
+//        coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.quest_log_coordinatorLayout);
+//        currentUser = ParseUser.getCurrentUser();
+//        String name = "";
+//        if(currentUser != null){
+//            name = currentUser.getString("name");
+//        }
+//        Snackbar.make(coordinatorLayout, "Hi! "+name, Snackbar.LENGTH_SHORT)
+//                .setAction("Undo", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//                })
+//                .show();
 
 //        showFragment(QUEST_LOG_FRAGMENT, false);
         return view;
@@ -304,7 +302,7 @@ public class QuestLogFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void showFragment(int fragmentIndex, boolean addToBackStack);
-
+        public FloatingActionButton getFloatingActionButton();
     }
 
     /**
@@ -316,6 +314,13 @@ public class QuestLogFragment extends Fragment {
         if (mListener != null) {
             mListener.showFragment(fragmentIndex, addToBackStack);
         }
+    }
+
+    public FloatingActionButton getFloatingActionButton() {
+        if (mListener != null) {
+            return mListener.getFloatingActionButton();
+        }
+        return null;
     }
 
 
