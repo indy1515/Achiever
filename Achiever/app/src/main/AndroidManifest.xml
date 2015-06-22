@@ -32,7 +32,9 @@
             android:value="@string/app_id" />
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_main" >
+            <!-- AdjustPan is to fixed keyboard interfering RecyclerView -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

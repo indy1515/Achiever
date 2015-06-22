@@ -49,7 +49,7 @@ public class QuestLogFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private int layout_height;
     private Context mContext;
     ParseUser currentUser;
     private static ArrayList<EventItem> listArray = new ArrayList<EventItem>();
@@ -112,11 +112,15 @@ public class QuestLogFragment extends Fragment {
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
+
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(mContext);
         mLayoutManager.setSmoothScrollbarEnabled(true);
+
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        layout_height = mRecyclerView.getLayoutManager().getHeight();
+        Log.i("QuestLogFragment", "Layout Height: " + layout_height);
         // specify an adapter (see also next example)
         mAdapter = new RecyclerListImageAdapter(mContext,listArray);
 

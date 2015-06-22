@@ -15,9 +15,7 @@
             android:layout_height="match_parent">
             <!-- your content layout -->
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+
                 <android.support.design.widget.AppBarLayout
                     android:id="@+id/app_bar"
                     android:layout_width="match_parent"
@@ -32,7 +30,7 @@
                         android:minHeight="?attr/actionBarSize"
                         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                        app:layout_scrollFlags="scroll|enterAlways">
+                        app:layout_scrollFlags="">
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -46,9 +44,8 @@
                 <FrameLayout  android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
-                    android:layout_below="@+id/app_bar"/>
-                </RelativeLayout>
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    />
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/float_addBtn"
                 android:layout_width="wrap_content"
