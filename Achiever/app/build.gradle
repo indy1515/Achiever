@@ -35,4 +35,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.2.0'
     compile fileTree(dir: 'libs', include: 'recyclerview-animators-*.jar')
     compile 'com.afollestad:material-dialogs:0.7.6.0'
+    compile 'com.wdullaer:materialdatetimepicker:1.3.1'
 }

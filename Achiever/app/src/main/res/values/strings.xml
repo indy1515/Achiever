@@ -30,6 +30,8 @@
     <string name="quest_detail">Eg. 10 Push up</string>
     <string name="type_private">Private</string>
     <string name="type_public">Public</string>
+    <string name="until">Until</string>
+    <string name="date">Set your date</string>
     <string name="forever">Forever</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
